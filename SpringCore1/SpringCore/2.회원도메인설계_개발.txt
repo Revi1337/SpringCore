@@ -2,3 +2,13 @@
     회원은 일반과 VIP 두 가지 등급이 있다.
     회원을 가입하고 조회할 수 있다.
     회원 데이터는 자체 DB를 구축할 수 있고, 외부 시스템과 연동할 수 있다. (미확정)
+
+// 회원 도메인 설계의 문제점
+- 이코드의 설계상 문제점은 무엇일까..
+- 다른 저장소로 변경할때 OCP(Open Close Principle) 을 잘 준수할까?
+- DIP(Dependency inversion principle) 를 잘 지키고 있을까? (“추상화에 의존해야지, 구체화에 의존하면 안된다.” 즉, 쉽게 이야기해서 구현 클래스에 의존하지 말고, 인터페이스에 의존하라는 뜻임)
+* 정답은 X
+    --> 의존관계가 인터페이스뿐만 아니라 구현클래스까지 모두 의존하는 문제점이 있음.
+            EX) MemberServiceImpl 클래스에서 private final MemberRepository memberRepository = new MemoryMemberRepository();
+                즉, MemberRepository 인터페이스뿐만아니라, MemoryMemberRepository 구현클래스까지 모두 의존함
+                --> 추상화에도 의존하고 구현체에도 의존한다는것 --> DIP 위반
