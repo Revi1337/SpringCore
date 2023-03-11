@@ -21,3 +21,16 @@
 - 타입으로 조회시 같은 타입의 스프링 빈이 둘 이상이면 오류가 발생한다. 이때는 빈 이름을 지정하자.
   ac.getBeansOfType() 을 사용하면 해당 타입의 모든 빈을 조회할 수 있다.
 
+// 스프링 빈 조회 - 상속관계
+- 부모타입으로 Bean 을 조회하면, 자식타입의 Bean 도 함께 조회된다. (무조건 이렇게 외울것.)
+- 그래서 모든 자바 객체의 최고 부모인 `Object` 타입으로 조회하면, 모든 스프링 빈이 조회됨.
+    ```
+    @Bean
+    public DiscountPolicy rateDiscountPolicy() {
+        return new RateDiscountPolicy();
+    }
+    ```
+* 리턴타입을 DiscountPolicy 으로 해놓은 이유는 개발하거나 설계할떄 SOLID 원칙중 DIP 원칙 (역할(추상)에 의존하고, 구현(구현체)에 의존하지 말자) 를 지키려고 한것임. (다형성)
+  리턴타입을 RateDiscountPolicy 으로 해놔도 되지만, 다른곳에서 DiscountPolicy 를 의존하고 있다하면, 인젝션 해주기도 쉬움.
+* Bean 의 타입은 결국 return new RateDiscountPolicy() 에서 결정되는 것임.
+  하지만, RateDiscountPolicy() 에서 반환되는 Bean 의 타입은 DiscountPolicy 의 구현체이기 떄문에, 부모타입(DiscountPolicy) Bean 을 조회할때 같이 검색됨.
