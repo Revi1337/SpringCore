@@ -1,0 +1,28 @@
+// @Configuration 과 싱글톤
+
+```java
+@Configuration
+public class AppConfig {
+     @Bean
+     public MemberService memberService() {
+        return new MemberServiceImpl(memberRepository());
+     }
+     @Bean
+     public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(),discountPolicy());
+     }
+     @Bean
+     public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+     }
+        ...
+}
+```
+1. memberService 빈을 만드는 코드를 보면 memberRepository() 를 호출. --> 이 메서드를 호출하면 new MemoryMemberRepository() 를 호출한다.
+2. orderService 빈을 만드는 코드도 동일하게 memberRepository() 를 호출. --> 이 메서드를 호출하면 new MemoryMemberRepository() 를 호출한다.
+요점 : 결과적으로 각각 다른 2개의 MemoryMemberRepository 가 생성되면서 싱글톤이 깨지는 것 처럼 보임 --> 스프링 컨테이너는 이 문제를 어떻게 해결할까?
+--> 정답은 스프링이 초기화되면서 Bean 을 등록할때, 한번 호출한 인스턴스는, 또한번 호출하지 않음. --> 두번호출 X
+--> 결론 : 스프링은 어떤 방법을 써서라도 싱글톤을 보장해줌.
+
+
+
