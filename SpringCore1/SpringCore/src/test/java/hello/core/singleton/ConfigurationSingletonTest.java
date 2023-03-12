@@ -33,4 +33,13 @@ public class ConfigurationSingletonTest {
         assertThat(memberRepository).isSameAs(memberRepository2);
         assertThat(memberRepository1).isSameAs(memberRepository2);
     }
+
+    @Test
+    @DisplayName(value = "@Configuration 의 비밀 `SpringCGLIB`")
+    public void configurationDeep() {
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        AppConfig bean = ac.getBean(AppConfig.class);
+
+        System.out.println("bean = " + bean.getClass());
+    }
 }
