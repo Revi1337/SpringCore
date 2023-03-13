@@ -50,4 +50,44 @@
 2. 타입 매칭의 결과가 2개 이상일 때 필드 명, 파라미터 명으로 빈 이름 매칭
     --> 본인과 같은 타입이거나 그타입의 자식들이 모두 조회되면 --> 필드명 혹은 파라미터명으로 Bean 이름 추가 매칭
 *********************************
+
 ===================================================================================================================
+// Qualifier 사용
+- @Qualifier 는 추가 구분자(식별자)를 붙여주는 방법이다. 주입시 추가적인 방법을 제공하는 것이지 Bean 이름을 변경하는 것은 아니다.
+  (Bean 을 구분할 수 있는 추가적인 옵션을 제공하는것이라 보면 됨.)
+
+1. Bean 등록 시 @Qualifier 를 붙여준다. (직접 빈 등록시(@Bean)에도 @Qualifier 를 동일하게 사용할 수 있다)
+    ```java (Bean 등록 시)
+    @Component @Qualifier("mainDiscountPolicy")
+    public class RateDiscountPolicy implements DiscountPolicy {}
+    ```
+    ```
+    @Component @Qualifier("fixDiscountPolicy")
+    public class FixDiscountPolicy implements DiscountPolicy {}
+    ```
+
+2. 주입시에 @Qualifier 를 붙여주고 등록한 이름을 적어준다. (생성자 자동 주입, 수정자=세터 자동 주입 모두 가능하다.)
+    ```java (생성자 자동 주입)
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+         this.memberRepository = memberRepository;
+         this.discountPolicy = discountPolicy;
+    }
+    ```
+    ```java (수정=세터 자동 주입 예시)
+    @Autowired
+    public DiscountPolicy setDiscountPolicy(@Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
+    ```
+****** @Qualifier 매칭 주의 & 정리 ******
+1. 주의
+    --> @Qualifier 로 의존성을 주입할 때 @Qualifier("mainDiscountPolicy") 를 찾지못하면,
+        mainDiscountPolicy 라는 이름의 스프링 Bean 을 추가로 찾는다.
+        (@Autowired 가 타입매칭시, 2개 이상의 Bean 이 조회되어, 필드 이름 혹은 파라미터 이름과 일치하는 Bean 을 추가적으로 검사하는 것과 같은 원리.)
+    --> 하지만 경험상 @Qualifier 는 @Qualifier 를 찾는 용도로만 사용하는게 명확하고 좋다. (@Qualifier 끼리 찾는것을 추천한다.)
+2. 정리
+    --> 1. @Qualifier 끼리 매칭한다. 없으면? 2번
+    --> 2. 빈 이름 매칭. 없으면? 3번
+    --> 3. NoSuchBeanDefinitionException 예외 발생
+*********************************
