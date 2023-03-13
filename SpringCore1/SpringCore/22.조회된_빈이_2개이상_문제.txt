@@ -9,4 +9,45 @@
   완전히 똑같은 타입의 스프링 빈이 2개 있을 때 해결이 안된다. 스프링 빈을 수동 등록해서 문제를 해결해도 되지만, 의존 관계 자동 주입에서 해결하는 여러 방법이 있다.
 
 
+// 조회된 Bean 이 두개 이상일때 문제해결방법 - @Autowired 필드명, @Qualifier, @Primary
+- 조회된 Bean 이 두개 이상이어서 익셉션이 터졌을 때, 해결방법은 크게 3가지가 있다.
+    1. @Autowired 필드 명 매칭
+    2. @Qualifier -> @Qualifier 끼리 매칭 -> 빈 이름 매칭
+    3. @Primary 사용
 
+===================================================================================================================
+// @Autowired 필드 명 매칭
+- @Autowired 는 타입 매칭을 시도하고, 이때 같은 타입의 Bean 이 여러개 있으면, 필드이름, 파라미터 이름으로 Bean 이름을 추가매칭한다.
+    --> Ex) 파라미터 이름으로 추가매칭 예
+            ```java (기존코드)
+            @Autowired
+            public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+                this.memberRepository = memberRepository;
+                this.discountPolicy = rateDiscountPolicy;
+            }
+            ```
+            ```java (파라미터 명을 Bean 이름으로 변경)
+            @Autowired
+            public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy rateDiscountPolicy) {
+                this.memberRepository = memberRepository;
+                this.discountPolicy = rateDiscountPolicy;
+            }
+            ```
+    --> --> 결과 : 기존코드에서 파라미터명을 존재하는 Bean 이름으로 변경하면, 파라미터명이 rateDiscountPolicy 이므로 의존성이 정상 주입된다.
+    --> --> 이유 : @Component 로 등록한 RateDiscountPolicy 는 결국 Bean 이름이 rateDiscountPolicy 이다.
+                  @Autowired 가 타입매칭시도 후, 필드이름 혹은 파라미터 명으로 추가 매칭을 시도하는데, 파라미터 이름과 동일한 이름의
+                  rateDiscountPolicy Bean 이 존재하기 때문에 정상 주입되는 것이다.
+    --> Ex) 필드 이름으로 추가매칭 예
+            ```java (기존코드)
+            @Autowired private DiscountPolicy discountPolicy;
+            ```
+            ```java (필드 명을 Bean 이름으로 변경)
+            @Autowired private DiscountPolicy rateDiscountPolicy;
+            ```
+****** @Autowired 매칭 정리 ******
+1. 타입 매칭
+    --> 조회된 타입의 Bean 이 한개이면, Bean 이름을 보지않고 무조건 주입
+2. 타입 매칭의 결과가 2개 이상일 때 필드 명, 파라미터 명으로 빈 이름 매칭
+    --> 본인과 같은 타입이거나 그타입의 자식들이 모두 조회되면 --> 필드명 혹은 파라미터명으로 Bean 이름 추가 매칭
+*********************************
+===================================================================================================================
