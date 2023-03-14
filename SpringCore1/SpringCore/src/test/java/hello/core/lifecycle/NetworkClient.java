@@ -1,6 +1,8 @@
 package hello.core.lifecycle;
 
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -33,14 +35,14 @@ public class NetworkClient {
         System.out.println("disconnect : " + url);
     }
 
-    // 의존관계 주입이 다 끝나고 호출됨.
+    @PostConstruct // 의존관계 주입이 다 끝나고 호출됨.
     public void init() throws Exception {
         System.out.println(ANSI_GREEN + "4. ========= Initialize Callback : afterPropertiesSet() =======" + ANSI_RESET);
         connect();
         call("초기화 연결 메시지");
     }
 
-    // Bean 이 종료될 때 호출
+    @PreDestroy // Bean 이 종료될 때 호출
     public void close() throws Exception {
         System.out.println(ANSI_GREEN + "6. ======= Destroy Callback : destroy() =======" + ANSI_RESET);
         disconnect();
