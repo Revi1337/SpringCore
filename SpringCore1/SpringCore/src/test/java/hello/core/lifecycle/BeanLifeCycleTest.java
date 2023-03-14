@@ -14,7 +14,7 @@ public class BeanLifeCycleTest {
 
     @Configuration
     static class LifeCycleConfig {
-        @Bean
+        @Bean(initMethod = "init", destroyMethod = "close")
         public NetworkClient networkClient() {
             NetworkClient networkClient = new NetworkClient();
             System.out.println(ANSI_GREEN + "3. ========= Injecting Dependencies =========" + ANSI_RESET);
