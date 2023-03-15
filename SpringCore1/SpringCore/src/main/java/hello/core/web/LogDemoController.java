@@ -12,16 +12,17 @@ public class LogDemoController {
 
     private final LogDemoService logDemoService;
 
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger logger;
 
     @ResponseBody
     @RequestMapping(value = "/log-demo")
     public String logDemo(HttpServletRequest request) {
         String requestUrl = request.getRequestURL().toString();
-        MyLogger myLogger = myLoggerProvider.getObject();
-        myLogger.setRequestURL(requestUrl);
 
-        myLogger.log("controller test");
+        System.out.println("logger.class = " + logger.getClass());  // 껍데기 MyLogger  (Proxy)
+        logger.setRequestURL(requestUrl);
+
+        logger.log("controller test");
         logDemoService.logic("testId");
         return "OK";
     }
