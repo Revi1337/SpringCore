@@ -1,0 +1,29 @@
+// 웹 스코프
+- 싱글톤은 스프링 컨테이너의 시작과 끝까지 함께하는 매우 긴 스코프이고
+- 프로토타입은 생성과 의존관계 주입, 그리고 초기화까지만 진행하는 특별한 스코프이다.
+- 하지만 웹 스코프 는 웹 환경에서만 동작한다 (이게 무슨뜻이냐?)
+
+// 웹 스코프의 특징
+- 웹 스크포는 웹 환경에서만 동작한다.
+- 웹 스코프는 프로토타입과 다르게 스프링이 해당 스코프의 종료시점까지 관리한다. 따라서 종료 메서드가 호출된다. (@PostConstruct, @PreDestroy)
+
+// 웹 스코프 종류
+- request: HTTP 요청 하나가 들어오고 나갈 때 까지 유지되는 스코프, 각각의 HTTP 요청마다 별도의 빈 인스턴스가 생성되고, 관리된다.
+- session: HTTP Session 과 동일한 생명주기를 가지는 스코프
+- application: 서블릿 컨텍스트(ServletContext )와 동일한 생명주기를 가지는 스코프
+- websocket: 웹 소켓과 동일한 생명주기를 가지는 스코프
+
+// 웹 스코프는 웹 환경에서만 동작하므로 web 환경이 동작하도록 라이브러리를 추가해야 한다.
+--> 참고: spring-boot-starter-web 라이브러리를 추가하면 스프링 부트는 내장 톰켓 서버를 활용해서 웹 서버와 스프링을 함께 실행시킨다.
+--> 참고: 스프링 부트는 웹 라이브러리가 없으면 우리가 지금까지 학습한 AnnotationConfigApplicationContext 을 기반으로 애플리케이션을 구동한다.
+         웹 라이브러리가 추가되면 웹과 관련된 추가 설정과 환경들이 필요하므로 AnnotationConfigServletWebServerApplicationContext 를 기반으로
+         애플리케이션을 구동한다.
+
+// request scope 설정
+--> @Scope(value = "request") 를 사용해서 request 스코프로 지정할 수 있음
+    : 해당 빈은 HTTP 요청 당 하나씩 생성되고, HTTP 요청이 끝나는 시점에 소멸된다. (정확히 생성시점은 스프링컨테이너에게 요청하는 시점임)
+
+**  매우 중요!  ** ( Scope 'request' is not active for the current thread - 오류 해결)
+- ObjectProvider 덕분에 ObjectProvider.getObject() 를 호출하는 시점까지 request scope 빈의 생성을 지연할 수 있다.
+  ObjectProvider.getObject() 를 호출하시는 시점에는 HTTP 요청이 진행중이므로 request scope 빈의 생성이 정상 처리된된다.
+  ObjectProvider.getObject() 를 LogDemoController , LogDemoService 에서 각각 한번씩 따로 출호해도 같은 HTTP 요청이면 같은 스프링 빈이 반환된다
