@@ -1,5 +1,8 @@
 package hello.advanced.trace.strategy;
 
+import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
+import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import hello.advanced.trace.template.code.AbstractTemplate;
 import hello.advanced.trace.template.code.SubClassLogic1;
 import hello.advanced.trace.template.code.SubClassLogic2;
@@ -38,14 +41,17 @@ public class ContextV1Test {
     }
 
     @Test
+    @DisplayName(value = "Strategy 패턴 적용 후")
     public void afterApplyStrategyPattern() {
-        AbstractTemplate template1 =  new SubClassLogic1();
-        template1.execute();
+        StrategyLogic1 logic1 = new StrategyLogic1();
+        ContextV1 context1 = new ContextV1(logic1);
+        context1.execute();
 
-        AbstractTemplate template2 =  new SubClassLogic2();
-        template2.execute();
+        StrategyLogic2 logic2 = new StrategyLogic2();
+        ContextV1 context2 = new ContextV1(logic2);
+        context2.execute();
     }
 
-    
+
 
 }
