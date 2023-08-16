@@ -1,6 +1,7 @@
 package hello.advanced.trace.strategy;
 
 import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.Strategy;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import hello.advanced.trace.template.code.AbstractTemplate;
@@ -52,6 +53,56 @@ public class ContextV1Test {
         context2.execute();
     }
 
+    @Test
+    @DisplayName(value = "Strategy 패턴 - 익명 내부 클래스")
+    public void afterApplyStrategyPattern2() {
+        Strategy strategy1 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직1 실행");
+            }
+        };
+        ContextV1 context1 = new ContextV1(strategy1);
+        context1.execute();
 
+        Strategy strategy2 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직2 실행");
+            }
+        };
+        ContextV1 context2 = new ContextV1(strategy2);
+        context2.execute();
+    }
+
+    @Test
+    @DisplayName(value = "Strategy 패턴 - 익명 내부 클래스 --> 간략화")
+    public void afterApplyStrategyPattern3() {
+        ContextV1 context1 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직1 실행");
+            }
+        });
+        context1.execute();
+
+        ContextV1 context2 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직2 실행");
+            }
+        });
+        context2.execute();
+    }
+
+    @Test
+    @DisplayName(value = "Strategy 패턴 - 익명 내부 클래스 --> 간략화 --> 간략화")
+    public void afterApplyStrategyPattern4() {
+        ContextV1 context1 = new ContextV1(() -> log.info("비지니스 로직1 실행"));
+        context1.execute();
+
+        ContextV1 context2 = new ContextV1(() -> log.info("비지니스 로직2 실행"));
+        context2.execute();
+    }
 
 }
