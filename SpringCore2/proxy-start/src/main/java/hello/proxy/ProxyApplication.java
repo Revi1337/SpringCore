@@ -4,11 +4,13 @@ import hello.proxy.config.AppV1Config;
 import hello.proxy.config.AppV2Config;
 import hello.proxy.config.v1_proxy.ConcreteProxyConfig;
 import hello.proxy.config.v1_proxy.InterfaceProxyConfig;
+import hello.proxy.config.v2_dynamicproxy.DynamicProxyBasicConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-@Import(ConcreteProxyConfig.class)
+ @Import(DynamicProxyBasicConfig.class)
+//@Import(ConcreteProxyConfig.class)
 //@Import(InterfaceProxyConfig.class)
 //@Import({AppV1Config.class, AppV2Config.class})
 @SpringBootApplication(scanBasePackages = "hello.proxy.app.v3")
