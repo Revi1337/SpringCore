@@ -1,6 +1,8 @@
 * 포인트 컷 (Pointcut)
 - 어디에 부가 기능을 적용할지, 어디에 부가 기능을 적용하지 않을지 판단하는 필터링 로직. 주로 클래스와 메서드 이름으로 필터링을 함.
 - 이름 그대로 포인트(Point) 에 기능을 적용할지 하지 않을지 잘라서(cut) 구분하는 것.
+- Pointcut Interface 는 ClassFilter 와 MethodMatcher 로 이루어져있다. ClassFilter 는 클래스가 맞는지. MethodMatcher 는 메서드가 맞는지 확인할때 사용된다.
+  둘 다 true 를 반환해야 Advice 를 적용할 수 있다.
 
 * 어드바이스 (Advice)
 - 이전에 본 것처럼 프록시가 호출하는 부가 기능. 단순하게 프록시 로직이라고 생각하면 된다.
