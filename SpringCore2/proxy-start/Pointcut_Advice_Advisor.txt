@@ -22,3 +22,11 @@
 - 어드바이스는 깔끔하게 부가 기능 로직을 담당
 - 둘을 합치면 어드바이저가 된다. 스프링의 어드바이저는 하나의 포인트컷 + 하나의 어드바이스로 구성된다.
 
+* 스프링이 제공하는 포인트컷
+스프링은 무수히 많은 포인트컷을 제공. 허나 대표적인것은 아래와 같음
+- NameMatchMethodPointcut : 메서드 이름을 기반으로 매칭한다. 내부에서는 PatternMatchUtils 를 사용한다.
+- JdkRegexMethodPointcut : JDK 정규 표현식을 기반으로 포인트컷을 매칭한다.
+- TruePointcut : 항상 참을 반환한다.
+- AnnotationMatchingPointcut : 애노테이션을 매칭한다.
+- AspectJExpressionPointcut : aspectJ 표현식으로 매칭한다.
+--> 가장 중요한것은 aspectJ 표현식이다. 실무에서너도 편리하고 기능도 가장 많은 AspectJExpressionPointcut 를 사용한다.
