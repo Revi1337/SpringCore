@@ -91,7 +91,7 @@ public class AdvisorTest {
         NameMatchMethodPointcut nameMatchMethodPointcut = new NameMatchMethodPointcut();
         nameMatchMethodPointcut.setMappedName("save"); // 메서드 이름이 save 인 경우에만 true
 
-        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(nameMatchMethodPointcut, new TimeAdvice()); // 항상 참인 Pointcut
+        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(nameMatchMethodPointcut, new TimeAdvice());
         proxyFactory.addAdvisor(advisor);
         ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 
