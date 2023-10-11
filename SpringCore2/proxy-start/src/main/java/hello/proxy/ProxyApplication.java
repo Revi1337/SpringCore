@@ -7,11 +7,13 @@ import hello.proxy.config.v1_proxy.InterfaceProxyConfig;
 import hello.proxy.config.v2_dynamicproxy.DynamicProxyBasicConfig;
 import hello.proxy.config.v2_dynamicproxy.DynamicProxyFilterConfig;
 import hello.proxy.config.v3_proxyfactory.ProxyFactoryConfigV1;
+import hello.proxy.config.v3_proxyfactory.ProxyFactoryConfigV2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-@Import(ProxyFactoryConfigV1.class)
+@Import(ProxyFactoryConfigV2.class)
+//@Import(ProxyFactoryConfigV1.class)
 //@Import(DynamicProxyFilterConfig.class)
 // @Import(DynamicProxyBasicConfig.class)
 //@Import(ConcreteProxyConfig.class)
