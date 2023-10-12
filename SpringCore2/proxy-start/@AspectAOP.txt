@@ -1,0 +1,7 @@
+@Aspect 프록시 - 적용
+- 스프링 애플리케이션에 프록시를 적용하려면 Pointcut 과 Advice 로 구성되어있는 Advisor 를 만들어서 스프링 빈으로 등록해야한다.
+  그러면 나머지는 자동 프록시 생성기 AutoProxyCreator (AnnotationAwareAspectJAutoProxyCreator) 가 모두 자동으로 처리해준다.
+  자동 프록시 생성기는 Spring Bean 으로 등록된 Advisor 들을 찾고, 스프링 Bean 들에 자동으로 프록시를 적용해준다. (물론 포인트컷이 매칭되는 경우에 프록시를 생성한다.)
+- 스프링은 @Aspect 어노테이션으로 매우 편리하게 포인트컷과 어드바이스로 구성되어 있는 어드바이저 생성 기능을 지원한다.
+  직접 만들었던 Advisor 를 어노테이션으로 편리하게 만드는거라 생각할 수 있다.
+
