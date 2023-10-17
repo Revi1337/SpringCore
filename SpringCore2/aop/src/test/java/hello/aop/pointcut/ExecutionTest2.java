@@ -23,21 +23,21 @@ public class ExecutionTest2 {
     }
 
     @Test
-    @DisplayName("리턴 타입 매치")
+    @DisplayName("타입(클래스) 매치")
     public void typeExactMatch() {
         aspectJExpressionPointcut.setExpression("execution(* hello.aop.order.aop.member.MemberServiceImpl.*(..))");
         assertThat(aspectJExpressionPointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
     }
 
     @Test
-    @DisplayName("리턴 타입 매치 - 부모 타입 매치도 가능하다 --> 다형성도 먹힌다 이말")
+    @DisplayName("타입(클래스) 매치 - 부모 타입 매치도 가능하다 --> 다형성도 먹힌다 이말")
     public void typeMatchSuperType() {
         aspectJExpressionPointcut.setExpression("execution(* hello.aop.order.aop.member.MemberService.*(..))");
         assertThat(aspectJExpressionPointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
     }
 
     @Test
-    @DisplayName("리턴 타입 매치 - 부모 타입을 매칭했을 때는 --> 부모타입에서 선언한 메서드만 pointcut 으로 동작한다.")
+    @DisplayName("타입(클래스) 매치 - 부모 타입을 매칭했을 때는 --> 부모타입에서 선언한 메서드만 pointcut 으로 동작한다.")
     public void typeMatchInternal() throws NoSuchMethodException {
         aspectJExpressionPointcut.setExpression("execution(* hello.aop.order.aop.member.MemberServiceImpl.*(..))");
         Method internalMethod = MemberServiceImpl.class.getMethod("internal", String.class);
@@ -45,7 +45,7 @@ public class ExecutionTest2 {
     }
 
     @Test
-    @DisplayName("리턴 타입 매치 - 부모 타입을 매칭했을 때는 --> 부모타입에서 선언한 메서드만 pointcut 으로 동작한다.")
+    @DisplayName("타입(클래스) 매치 - 부모 타입을 매칭했을 때는 --> 부모타입에서 선언한 메서드만 pointcut 으로 동작한다.")
     public void typeMatchNoSuperTypeMethodFalse() throws NoSuchMethodException {
         aspectJExpressionPointcut.setExpression("execution(* hello.aop.order.aop.member.MemberService.*(..))");
         Method internalMethod = MemberServiceImpl.class.getMethod("internal", String.class);
